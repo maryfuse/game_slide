@@ -30,10 +30,12 @@
     var wrongCollected= 0;
 
     /* counters, etc */
-    var score = 0, gamestate = null, x = 0, sprites = [], allsprites = [],
+    var sprite_i = 0, gamestate = null, x = 0, sprites = [], allsprites = [],
         spritecount = 0, now = 0, old = null, playerY = 0, offset = 0,
         width = 0, height = 0, levelincrease = 0, i=0 , storedscores = null,
-        initsprites = 5, newsprite = 500, rightdown = false, leftdown = false;
+        initsprites = 5, newsprite = 300, rightdown = false, leftdown = false;
+
+    const TIMEPLAY = 20, GETITEM=5, MAXLVL = 3;
     /* 
       Setting up the game
     */
@@ -63,6 +65,7 @@
         allsprites.push( current );
       }
       spritecount = allsprites.length;
+      // console.log(allsprites);
       initsprites = +$( '#characters' ).getAttribute( 'data-countstart' );
       newsprite = +$( '#characters' ).getAttribute( 'data-newsprite' );
   
@@ -251,7 +254,9 @@
         // sprites.push( addsprite() );
         // levelincrease++;
       // } 
-      if(~~(scores.energy/newsprite)>levelincrease && levelincrease < 15){
+      if(~~((scores.energy)/newsprite)>levelincrease && levelincrease < MAXLVL){
+        // console.log(levelincrease, " lvl")
+        // console.log(sprites)
         sprites.push( addsprite() );
         levelincrease++;
       }
@@ -309,22 +314,24 @@
 
 
       if(itemCollected.length > 0){
-        outputCollected = itemCollected.length == 5 ? "<h3>You Got it All!!<br>Here your Ticket</h3> <ul>"  : "<h3>Still need "+(5 - itemCollected.length)+" item<br>You Got:</h3> <ul>";
+        outputCollected = itemCollected.length == GETITEM ? "<h3>You Got it All!!<br>Here your Ticket</h3> <ul>"  : "<h3>Still need "+(GETITEM - itemCollected.length)+" item<br>You Got:</h3> <ul>";
         for(let i=0; i<itemCollected.length;i++){
           outputCollected += "<li>"+itemCollected[i].qtt+" "+itemCollected[i].name+"</li>";
         }
         
         outputCollected += "<li>";
-        outputCollected += wrongCollected > 0? "You get "+wrongCollected+" wrong collected items" : "You got no collected item";
+        outputCollected += wrongCollected > 0? "You get "+wrongCollected+" wrong items" : "You got no wrong item";
         
         outputCollected += "</li></ul>";
         messageCollected.innerHTML = outputCollected;
       }
       itemCollected=[];
       wrongCollected= 0;
+      levelincrease = 0;
+      sprite_i=0;
 
 
-      timedisplay.innerHTML = 15;
+      timedisplay.innerHTML = TIMEPLAY;
       if ( nowscore > storedscores.high ) {
         overmsg.innerHTML = overmsg.getAttribute('data-highscore');
         storedscores.high = nowscore;
@@ -407,12 +414,33 @@
   
     function addsprite() {
       var s = new sprite(); 
-      setspritedata( s );
+      //So all item will use 
+      if(sprite_i < spritecount){
+        setspritedataNoRdm(s);
+        sprite_i++;
+      }else{
+        setspritedata( s );
+      }
       return s;
     };
     
     function setspritedata( sprite ) {
       var r = ~~rand( 0, spritecount );
+      sprite.img = allsprites[ r ].img;
+      sprite.height = sprite.img.offsetHeight;
+      sprite.width = sprite.img.offsetWidth;
+      sprite.type = allsprites[ r ].type;
+      sprite.nameinfo = allsprites[ r ].nameinfo;
+      sprite.effects = allsprites[ r ].effects;
+      sprite.offset = allsprites[ r ].offset;
+      sprite.py = -100;
+      sprite.px = rand( sprite.width / 2, width - sprite.width / 2  );
+      sprite.vx = rand( -1, 2 );
+      sprite.vy = rand( 1, 5 );
+    };
+  
+    function setspritedataNoRdm( sprite ) {
+      var r = sprite_i;
       sprite.img = allsprites[ r ].img;
       sprite.height = sprite.img.offsetHeight;
       sprite.width = sprite.img.offsetWidth;
