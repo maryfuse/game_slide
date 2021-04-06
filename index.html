@@ -42,7 +42,8 @@
       <li class="introdeck">
         <h2>The components</h2>
         <p>Each Item get 100 Score</p>
-        <p>Dont get the red border! Or the score will be -20</p>
+        <p>Dont get the red border! Or the score will be -20</p><br>
+        <p>If you get 5 of all item, you will get bonus 500 Score each success</p>
         <ul>
           <li><img src="img/almond.png" class="sprite" 
                    alt="Almond" data-collision="energy:100"
@@ -72,7 +73,7 @@
   <section id="playfield">
     <div id="scoresinfo">
     <div id="energy"><!-- Score  --><output>0</output></div>
-    <div id="time"><!-- Time  --> <output>20</output></div>
+    <div id="time"><!-- Time  --> <output>30</output></div>
     <div id="score"> <output></output></div>
     </div>
     <canvas></canvas>
@@ -86,7 +87,7 @@
     <p><button id="replay">Play again</button></p>
   </section>
 
-  <ul id="androidbrowsersucks">
+  <ul id="androidbrowsersucks" style="display: none;">
     <li><button class="left">&nbsp;</button></li>
     <li><button class="right">&nbsp;</button></li>
   </ul>

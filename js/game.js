@@ -33,9 +33,10 @@
     var sprite_i = 0, gamestate = null, x = 0, sprites = [], allsprites = [],
         spritecount = 0, now = 0, old = null, playerY = 0, offset = 0,
         width = 0, height = 0, levelincrease = 0, i=0 , storedscores = null,
-        initsprites = 5, newsprite = 300, rightdown = false, leftdown = false;
+        initsprites = 5, newsprite = 300, rightdown = false, leftdown = false,
+        bonus = 0;
 
-    const TIMEPLAY = 20, GETITEM=5, MAXLVL = 3;
+    const TIMEPLAY = 30, GETITEM=5, MAXLVL = 3;
     /* 
       Setting up the game
     */
@@ -99,7 +100,7 @@
         you can tilt the phone - Firefox for example.
       */
       if( 'ondeviceorientation' in window ) {
-        $( '#androidbrowsersucks' ).style.display = 'none';
+        // $( '#androidbrowsersucks' ).style.display = 'none';
       }
       
     };
@@ -123,10 +124,13 @@
     function onkeydown( ev ) {
       if ( ev.keyCode === 39 ) { rightdown = true; }
       else if ( ev.keyCode === 37 ) { leftdown = true; }
+      // there bug when press enter or spacebar it will be fast move (only on chrome)
+      else if ( ev.keyCode === 13 | ev.keyCode === 32 ) { ev.preventDefault(); }
     }
     function onkeyup( ev ) {
       if ( ev.keyCode === 39 ) { rightdown = false; }
       else if ( ev.keyCode === 37 ) { leftdown = false; }
+      else if ( ev.keyCode === 13 | ev.keyCode === 32 ) { ev.preventDefault(); }
     }
     
     /* Touch handling */
@@ -206,6 +210,9 @@
 
       //Change BG on Container
       container.classList.add("playfield-current");
+
+      $( '#androidbrowsersucks' ).style.display = '';
+
 
       setcurrent( field );
       gamestate = 'playing';
@@ -303,6 +310,7 @@
     */
     function gameover() {
       container.classList.remove("playfield-current");
+      $( '#androidbrowsersucks' ).style.display = 'none';
 
       document.body.className = 'gameover';
       setcurrent( over );
@@ -314,7 +322,7 @@
 
 
       if(itemCollected.length > 0){
-        outputCollected = itemCollected.length == GETITEM ? "<h3>You Got it All!!<br>Here your Ticket</h3> <ul>"  : "<h3>Still need "+(GETITEM - itemCollected.length)+" item<br>You Got:</h3> <ul>";
+        outputCollected = itemCollected.length == GETITEM ? "<h3>You Got it All!!<br> You got "+bonus+" times bonus</h3> <ul>"  : "<h3>Still need "+(GETITEM - itemCollected.length)+" item<br>You Got:</h3> <ul>";
         for(let i=0; i<itemCollected.length;i++){
           outputCollected += "<li>"+itemCollected[i].qtt+" "+itemCollected[i].name+"</li>";
         }
@@ -329,6 +337,7 @@
       wrongCollected= 0;
       levelincrease = 0;
       sprite_i=0;
+      bonus=0;
 
 
       timedisplay.innerHTML = TIMEPLAY;
@@ -377,6 +386,17 @@
                 }else{
                   itemCollected.find((x)=> x.name ==this.nameinfo).qtt++
                 }
+
+                //Add bonus if get 5 item
+                if(itemCollected.length > 0){
+                  if(itemCollected.filter((item, index) => {
+                    return item.qtt > bonus
+                    }).length == 5){
+                    scores.energy += 500
+                    bonus++
+                  }
+                }
+
               }
               else{
                 if(wrongCollected > 0){ 
