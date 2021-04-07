@@ -19,7 +19,8 @@
         startenergy   = +energydisplay.innerHTML;
 
         messageCollected = $(".message-collected");
-  
+
+
     /* Game data */
     var scores = { 
           energy: startenergy 
@@ -77,12 +78,25 @@
       /* Assign event handlers */
       container.addEventListener( 'keydown', onkeydown, false );
       container.addEventListener( 'keyup', onkeyup, false );
-      container.addEventListener( 'touchstart', ontouchstart, false );
+      container.addEventListener( 'touchstart', ontouchstart, false );   
+      // container.addEventListener('touchmove', ontouchmove, false);
       container.addEventListener( 'touchend', ontouchend, false );
       container.addEventListener( 'click', onclick, false );
       container.addEventListener( 'mousemove', onmousemove, false );
       window.addEventListener( 'deviceorientation', tilt, false );
-  
+      // canvas.addEventListener( 'onclick', function(e) { console.log(e)}, false );
+      // canvas.addEventListener('mousemove', function(event) {
+      //   // Check whether point is inside circle
+      //   console.log(c)
+      // });
+
+      // $("#canvas").mousemove(function(e){handleMouseMove(e);});
+      // function handleMouseMove(e){
+      //   console.log(c)
+      //   $('#mouse').text(x+'/'+y);
+
+      // }
+
       /* Get the game score, or preset it when there isn't any  */
       if( localStorage.html5catcher ) {
         storedscores = JSON.parse( localStorage.html5catcher );
@@ -139,6 +153,13 @@
       if ( ev.target === rightbutton ) { rightdown = true; }
       else if ( ev.target === leftbutton ) { leftdown = true; }
     }
+
+    // function ontouchmove(ev){
+    //   if ( gamestate === 'playing' ) { ev.preventDefault(); }
+    //   if ( ev.target === rightbutton ) { rightdown = false; }
+    //   else if ( ev.target === leftbutton ) { leftdown = false; }
+    // }
+
     function ontouchend( ev ) {
       if ( gamestate === 'playing' ) { ev.preventDefault(); }
       if ( ev.target === rightbutton ) { rightdown = false; }
@@ -211,7 +232,7 @@
       //Change BG on Container
       container.classList.add("playfield-current");
 
-      $( '#androidbrowsersucks' ).style.display = '';
+      // $( '#androidbrowsersucks' ).style.display = '';
 
 
       setcurrent( field );
@@ -271,7 +292,7 @@
       /* position player*/
       if( rightdown ) { playerright(); }
       if( leftdown ) { playerleft(); }
-  
+      
       c.save(); 
       c.translate( x-offset, playerY );
       c.drawImage( player, 0, 0 );
@@ -299,7 +320,7 @@
       if (x < offset) { x = offset; }
     }
   
-    /* action when left is activated */
+    /* action when right is activated */
     function playerright() {
       x += playerincrease;
       if (x > width - offset) { x = width - offset; }
@@ -310,7 +331,7 @@
     */
     function gameover() {
       container.classList.remove("playfield-current");
-      $( '#androidbrowsersucks' ).style.display = 'none';
+      // $( '#androidbrowsersucks' ).style.display = 'none';
 
       document.body.className = 'gameover';
       setcurrent( over );
@@ -324,7 +345,9 @@
       if(itemCollected.length > 0){
         outputCollected = itemCollected.length == GETITEM ? "<h3>You Got it All!!<br> You got "+bonus+" times bonus</h3> <ul>"  : "<h3>Still need "+(GETITEM - itemCollected.length)+" item<br>You Got:</h3> <ul>";
         for(let i=0; i<itemCollected.length;i++){
-          outputCollected += "<li>"+itemCollected[i].qtt+" "+itemCollected[i].name+"</li>";
+          namelower = itemCollected[i].name.toLowerCase();
+          outputCollected += "<li><img src='img/"+namelower+".png' class='sprite' alt='"+itemCollected[i].name+"'><span>" +
+                             itemCollected[i].qtt+" "+itemCollected[i].name+"</span></li>";
         }
         
         outputCollected += "<li>";

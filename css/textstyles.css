@@ -109,3 +109,9 @@ body {
   top: 164px;
 }
   
+.message-collected li{
+  display: flex;
+}
+.message-collected li span{
+  margin: auto auto auto 10px;
+}
