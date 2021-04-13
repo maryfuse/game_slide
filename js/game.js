@@ -231,6 +231,7 @@
 
       //Change BG on Container
       container.classList.add("playfield-current");
+      $( '.component' ).classList.remove("d-none");
 
       // $( '#androidbrowsersucks' ).style.display = '';
 
@@ -331,6 +332,7 @@
     */
     function gameover() {
       container.classList.remove("playfield-current");
+      $( '.component' ).classList.add("d-none");
       // $( '#androidbrowsersucks' ).style.display = 'none';
 
       document.body.className = 'gameover';
@@ -396,6 +398,8 @@
             while ( i-- ) {
               //When get the item, increase score
               scores[ this.effects[ i ].effect ] += +this.effects[ i ].value;
+
+
               //Only take name the got
               // if(itemNeeded.indexOf(this.nameinfo) >= 0 && itemCollected.indexOf(this.nameinfo) < 0){ 
               //   console.log("got", this.nameinfo)
@@ -404,6 +408,9 @@
 
               // Take name and qtt the got
               if(itemNeeded.indexOf(this.nameinfo) >= 0){ 
+                $(".component ."+ this.nameinfo +" output").innerHTML++;
+
+
                 if(!itemCollected.find((x)=> x.name == this.nameinfo)){
                   itemCollected.push({"name":this.nameinfo, "qtt":1})
                 }else{

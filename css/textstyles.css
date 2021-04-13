@@ -21,6 +21,8 @@ body {
   
   .playfield-current {
     background: url(../img/board.png) no-repeat center !important;
+    height: 87% !important;
+    max-height: 700%;
   }
   #intro h1 span {
     text-indent: -2000px;
@@ -30,7 +32,7 @@ body {
   }
   #gameover h1{
     /* background: url(../img/brokenshield.png) no-repeat center 20px; */
-    padding-top: 150px;
+    padding-top: 80px;
     text-align: center;
     text-transform: uppercase;
   }
@@ -94,19 +96,19 @@ body {
   }
   button:focus {outline:0;}
 
-  #time, #energy{
+  #scoresinfo div{
     position: relative;
     text-align: center;
+    width: 33%;
+    color: #fff;
   }
   #time{
     font-size: 35px;
-    left: -2%;
-    top: 122px;
+    left: 0px;
   }
 #energy{
   font-size: 28px;
-  left: 24%;
-  top: 164px;
+  left: -24px;
 }
   
 .message-collected li{
@@ -114,4 +116,21 @@ body {
 }
 .message-collected li span{
   margin: auto auto auto 10px;
+}
+
+.component{
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+.component > div{
+  text-align: center;
+  display: grid;
+}
+
+.d-none{
+  display: none;
 }
