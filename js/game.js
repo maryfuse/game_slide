@@ -37,7 +37,7 @@
         initsprites = 5, newsprite = 300, rightdown = false, leftdown = false,
         bonus = 0;
 
-    const TIMEPLAY = 30, GETITEM=5, MAXLVL = 3;
+    const TIMEPLAY = 30, GETITEM=itemNeeded.length, MAXLVL = 3;
     /* 
       Setting up the game
     */
@@ -364,6 +364,10 @@
       sprite_i=0;
       bonus=0;
 
+      for(let i=0;i<GETITEM;i++){
+        $(".component ."+ itemNeeded[i]+ " output").innerHTML = 0;
+
+      }
 
       timedisplay.innerHTML = TIMEPLAY;
       if ( nowscore > storedscores.high ) {
