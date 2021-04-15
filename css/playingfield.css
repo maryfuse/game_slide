@@ -24,7 +24,7 @@
   }
   
   .playing #container { 
-    cursor: none;
+    /* cursor: none; */
   }
   
   @media screen and (min-device-width: 700px) {

@@ -13,6 +13,7 @@
         timedisplay = $( '#time output' ),
         canvas        = $( 'canvas' ),
         over          = $( '#gameover' ),
+        pausebtn      = $( '#pause' ),
         overmsg       = over.querySelector( '.message' ),
         characters    = document.querySelectorAll( 'li.introdeck' ),
         c             = canvas.getContext( '2d' ),
@@ -35,7 +36,7 @@
         spritecount = 0, now = 0, old = null, playerY = 0, offset = 0,
         width = 0, height = 0, levelincrease = 0, i=0 , storedscores = null,
         initsprites = 5, newsprite = 300, rightdown = false, leftdown = false,
-        bonus = 0;
+        bonus = 0, pause=false;
 
     const TIMEPLAY = 30, GETITEM=itemNeeded.length, MAXLVL = 3;
     /* 
@@ -74,28 +75,26 @@
       /* make game keyboard enabled */
       container.tabIndex = -1;
       container.focus();
-  
+
       /* Assign event handlers */
       container.addEventListener( 'keydown', onkeydown, false );
       container.addEventListener( 'keyup', onkeyup, false );
-      container.addEventListener( 'touchstart', ontouchstart, false );   
-      // container.addEventListener('touchmove', ontouchmove, false);
-      container.addEventListener( 'touchend', ontouchend, false );
+
+      // container.addEventListener( 'touchstart', ontouchstart, false );         
+      // container.addEventListener( 'touchend', ontouchend, false );
       container.addEventListener( 'click', onclick, false );
       container.addEventListener( 'mousemove', onmousemove, false );
       window.addEventListener( 'deviceorientation', tilt, false );
-      // canvas.addEventListener( 'onclick', function(e) { console.log(e)}, false );
-      // canvas.addEventListener('mousemove', function(event) {
-      //   // Check whether point is inside circle
-      //   console.log(c)
-      // });
 
-      // $("#canvas").mousemove(function(e){handleMouseMove(e);});
-      // function handleMouseMove(e){
-      //   console.log(c)
-      //   $('#mouse').text(x+'/'+y);
 
+      
+      pausebtn.addEventListener( 'click', pauseGame, false );
+
+      // function getMousePosition(event) {
+      //   let y = event.clientY;
+      //   console.log("Coordinate y: " + y);
       // }
+      
 
       /* Get the game score, or preset it when there isn't any  */
       if( localStorage.html5catcher ) {
@@ -148,6 +147,7 @@
     }
     
     /* Touch handling */
+    // This is for right side left side 
     function ontouchstart( ev ) {
       if ( gamestate === 'playing' ) { ev.preventDefault(); }
       if ( ev.target === rightbutton ) { rightdown = true; }
@@ -180,6 +180,13 @@
       if ( mx < offset ) { mx = offset; }
       if ( mx > width-offset ) { mx = width-offset; }
       x = mx;
+    }
+
+    function pauseGame(ev){
+      console.log("PAUSEE")
+      pause=!pause
+      console.log(pause)
+      if (!pause) loop()
     }
   
     /* 
@@ -220,7 +227,7 @@
         characters[ now ].className = 'current';
       }
     }
-  
+    
     /*
       Start the game 
     */
@@ -307,12 +314,13 @@
       // } else {
       //   gameover();
       // }
-
+      
+      if (pause) return;
       if ( time > 0 ) {
           requestAnimationFrame( loop );
-      } else {
-        gameover();
-      }
+      }else {
+          gameover();
+        }
     };
   
     /* action when left is activated */
