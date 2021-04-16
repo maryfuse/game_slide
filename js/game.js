@@ -139,6 +139,8 @@
       else if ( ev.keyCode === 37 ) { leftdown = true; }
       // there bug when press enter or spacebar it will be fast move (only on chrome)
       else if ( ev.keyCode === 13 | ev.keyCode === 32 ) { ev.preventDefault(); }
+      else if ( ev.keyCode === 13 | ev.keyCode === 32 ) { ev.preventDefault(); }
+      else if ( ev.keyCode === 27 && gamestate === 'playing' ) { pauseGame() }
     }
     function onkeyup( ev ) {
       if ( ev.keyCode === 39 ) { rightdown = false; }
@@ -183,10 +185,15 @@
     }
 
     function pauseGame(ev){
-      console.log("PAUSEE")
       pause=!pause
-      console.log(pause)
+      if(pause){
+        $( '.pause' ).classList.remove("d-none");
+      }else{
+        $( '.pause' ).classList.add("d-none");
+      }
+
       if (!pause) loop()
+
     }
   
     /* 
@@ -322,7 +329,7 @@
           gameover();
         }
     };
-  
+
     /* action when left is activated */
     function playerleft() {
       x -= playerincrease;
