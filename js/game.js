@@ -68,7 +68,6 @@
         allsprites.push( current );
       }
       spritecount = allsprites.length;
-      // console.log(allsprites);
       initsprites = +$( '#characters' ).getAttribute( 'data-countstart' );
       newsprite = +$( '#characters' ).getAttribute( 'data-newsprite' );
   
@@ -188,8 +187,10 @@
       pause=!pause
       if(pause){
         $( '.pause' ).classList.remove("d-none");
+        $( '#pause' ).innerHTML = "&#9654;";
       }else{
         $( '.pause' ).classList.add("d-none");
+        $( '#pause' ).innerHTML = "||";
       }
 
       if (!pause) loop()
@@ -298,8 +299,6 @@
         // levelincrease++;
       // } 
       if(~~((scores.energy)/newsprite)>levelincrease && levelincrease < MAXLVL){
-        // console.log(levelincrease, " lvl")
-        // console.log(sprites)
         sprites.push( addsprite() );
         levelincrease++;
       }
@@ -460,7 +459,7 @@
         if ( this.px > (width - this.offset) || this.px < this.offset ) {
           this.vx = -this.vx;
         }
-        if ( this.py > height + 100 ) {
+        // if ( this.py > height + 100 ) {
           //good means, you must catch it !
           // if ( this.type === 'good' ) {
           //   i = this.effects.length;
@@ -469,8 +468,8 @@
           //     scores[ this.effects[ i ].effect ] -= +this.effects[ i ].value;
           //   }
           // }
-          setspritedata( this );
-        }
+          // setspritedata( this );
+        // }
       };
       this.render = function() {
         c.save(); 

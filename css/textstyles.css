@@ -162,6 +162,7 @@ body {
     background: #fff;
     z-index: 2;
     position: relative;
+    font-weight: bold;
 }
 .pause{
   width: 100%;

@@ -21,6 +21,8 @@
 
     position: relative;
     overflow: hidden;
+
+    margin: 0 auto; 
   }
   
   .playing #container { 
